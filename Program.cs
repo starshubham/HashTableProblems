@@ -79,8 +79,54 @@ namespace HashTableProblems
 
             Console.WriteLine("\n************End Of UC2 Program************\n");
 
+            // UC3
+            Console.WriteLine("After removing 'avoidable' word from phrase: \n");
+            // Convert phrase to string array using split method
+            string temp2 = "Paranoids are not paranoid because they are paranoid but because " +
+                "they keep putting themselves deliberately into paranoid avoidable situations";
+            string[] samplephrase2 = temp2.ToLower().Split(" ");
 
-            
+            // get only distinct elements
+            var phrase2 = samplephrase2.Distinct();
+
+            // calculate length of distinct variable
+            int length2 = 0;
+            foreach (var item in phrase) { length2++; }
+
+            // Object of MyHashNode class
+            MyMapNode<string, int> hash2 = new MyMapNode<string, int>(length2);
+
+            foreach (string word in samplephrase)
+            {
+                //remove "avoidable" either at creating hashTable
+                if (word == "avoidable")
+                {
+                    continue;
+                }
+                else if (hash2.ContainsKey(word))
+                {
+                    count = hash2.GetValue(word) + 1;
+                    hash2.Remove(word);
+                    hash2.Add(word, count);
+                }
+                else
+                {
+                    hash2.Add(word, 1);
+                }
+            }
+
+            // or after creating hashTable
+            // hash.Remove("avoidable");
+
+            // Print the result
+            Console.WriteLine($"{"Frequency",20} | {"Count",10}\n");
+            foreach (string key in phrase2)
+            {
+                Console.WriteLine($"{key,20} | {hash2.GetValue(key),10}");
+            }
+
+            Console.WriteLine("\n************End Of UC3 Program************\n");
+
         }
     }
 }
