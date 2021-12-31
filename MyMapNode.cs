@@ -8,27 +8,18 @@ namespace HashTableProblems
 {
     public class MyMapNode<K, V>
     {
-        public readonly int size;
+        // instance variable
+        private readonly int size;
         private readonly LinkedList<KeyValue<K, V>>[] items;
 
+        // constructor
         public MyMapNode(int size)
         {
             this.size = size;
             this.items = new LinkedList<KeyValue<K, V>>[size];
         }
-        public V Get(K key)
-        {
-            int position = GetArrayPosition(key);
-            LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
-            foreach (KeyValue<K, V> item in linkedList)
-            {
-                if (item.Key.Equals(key))
-                {
-                    return item.Value;
-                }
-            }
-            return default(V);
-        }
+        
+        // Method to add
         public void Add(K key, V value)
         {
             int position = GetArrayPosition(key);
@@ -36,6 +27,8 @@ namespace HashTableProblems
             KeyValue<K, V> item = new KeyValue<K, V>() { Key = key, Value = value };
             linkedList.AddLast(item);
         }
+
+        // Method to remove
         public void Remove(K key)
         {
             int position = GetArrayPosition(key);
@@ -55,11 +48,45 @@ namespace HashTableProblems
                 linkedList.Remove(foundItem);
             }
         }
+
+        // Method to get position
         public int GetArrayPosition(K key)
         {
             int position = key.GetHashCode() % size;
             return Math.Abs(position);
         }
+
+        // Method to check if key is present or not
+        public bool ContainsKey(K key)
+        {
+            int position = GetArrayPosition(key);
+            LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
+            foreach (KeyValue<K, V> item in linkedList)
+            {
+                if (item.Key.Equals(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Method to Get Value
+        public V GetValue(K key)
+        {
+            int position = GetArrayPosition(key);
+            LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
+            foreach (KeyValue<K, V> item in linkedList)
+            {
+                if (item.Key.Equals(key))
+                {
+                    return item.Value;
+                }
+            }
+            return default(V);
+        }
+
+        // Method to Get Linked List
         public LinkedList<KeyValue<K, V>> GetLinkedList(int position)
         {
             LinkedList<KeyValue<K, V>> linkedList = items[position];
@@ -90,7 +117,11 @@ namespace HashTableProblems
             }
             return count;
         }
+
+        
     }
+
+    // Structure
     public struct KeyValue<K, V>
     {
         public K Key { get; set; }
